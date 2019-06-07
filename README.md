@@ -7,7 +7,7 @@ Albert Launcher: https://albertlauncher.github.io/
 ## My changes
 
 I only changed a few values coming from the Openweathermap API:
-* got rid of °F values
+* got rid of °F values and rounded temperature values to 0 decimal places
 * included cloudiness
 * included wind speed and direction
 
