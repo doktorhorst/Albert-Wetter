@@ -8,9 +8,9 @@ from datetime import datetime, timedelta, timezone
 import time
 
 __iid__ = "PythonInterface/v0.1"
-__prettyname__ = "Forecast"
+__prettyname__ = "Wetter"
 __version__ = "0.1"
-__trigger__ = "fc "
+__trigger__ = "wetter "
 __author__ = "Bharat Kalluri"
 __dependencies__ = []
 
@@ -82,7 +82,7 @@ def show_forecast(query):
         item_arr = [Item(
             id=__prettyname__,
             icon=iconLookup("dialog-information"),
-            text="Weather in {}".format(data["city"]["name"]),
+            text="Wetter in {}".format(data["city"]["name"]),
         )]
         # Initial Item showing info
 
@@ -116,18 +116,42 @@ def make_item(json_obj):
             weatherDict.get(json_obj["weather"][0]["description"], "weather-overcast")
         ),
         text="{}: {}".format(
-            time.strftime("%d %B", time.localtime(date_epoch)),
+            time.strftime("%d. %B", time.localtime(date_epoch)),
             json_obj["weather"][0]["main"],
         ),
-        subtext="High: {:.1f}°C ({:.1f}°F) Low: {:.1f}°C ({:.1f}°F) Humidity: {}%".format(
+        subtext="{:.0f} bis {:.0f}°C | {}% bewölkt | {} km/h aus {} | Luftfeuchte: {}%".format(
             json_obj["main"]["temp_min"],
-            fahrenheit_converter(json_obj["main"]["temp_min"]),
+            # fahrenheit_converter(json_obj["main"]["temp_min"]),
             json_obj["main"]["temp_max"],
-            fahrenheit_converter(json_obj["main"]["temp_max"]),
-            json_obj["main"]["humidity"],
+	    json_obj["clouds"]["all"],
+            # fahrenheit_converter(json_obj["main"]["temp_max"]),
+	    kmh_converter(json_obj["wind"]["speed"]),
+	    direction_converter(json_obj["wind"]["deg"]),
+	    json_obj["main"]["humidity"],
         ),
     )
 
 
-def fahrenheit_converter(celsius):
-    return 9 / 5 * celsius + 32
+# def fahrenheit_converter(celsius):
+#     return 9 / 5 * celsius + 32
+
+def kmh_converter(ms):
+	return round(3.6 * ms)
+
+def direction_converter(deg):
+	if deg > 337.5 or deg <= 22.5:
+		return "N"
+	if deg > 22.5 and deg <= 67.5:
+		return "NO"
+	if deg > 67.5 and deg <= 112.5:
+		return "O"
+	if deg > 112.5 and deg <= 157.5:
+		return "SO"
+	if deg > 157.5 and deg <= 202.5:
+		return "S"
+	if deg > 202.5 and deg <= 247.5:
+		return "SW"
+	if deg > 247.5 and deg <= 292.5:
+		return "W"
+	if deg > 292.5 and deg <= 337.5:
+		return "NW"
