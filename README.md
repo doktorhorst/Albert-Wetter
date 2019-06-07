@@ -1,14 +1,8 @@
-# Albert Forecast
+All credit goes here: https://github.com/AlbertExtensions/Forecast
 
-> Albert extension to find weather for the next 5 days.
+I only changed a few values coming from the Openweathermap API:
+* got rid of °F values
+* included cloudiness
+* included wind speed and direction
 
-## Usage
-
-![Workflow Screenshot](Demo.gif)
-
-## Features
-
-- Display weather for the next 5 days
-
-<em>Please feel free to file issues if you encounter
-any problems.</em>
+(Additionally, I changed a few things to German)
